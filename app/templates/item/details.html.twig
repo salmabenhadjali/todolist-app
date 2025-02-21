@@ -1,5 +1,6 @@
 <div>
-	<h2 class="mb-4">List name ({{ items|length }})
+	<h2 class="mb-4">
+		{{ name ~ '(' ~ items|length ~ ')' }}
 		<i class="fas fa-edit"></i>
 	</h2>
 	{% for item in items %}

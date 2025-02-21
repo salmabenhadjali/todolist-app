@@ -30,3 +30,9 @@ footer a {
 .sublist {
   margin-left: 30px;
 }
+
+.modal-dialog {
+  --bs-modal-bg: #17242c;
+  color: #fff;
+  font-family: "Roboto Condensed", sans-serif;
+}

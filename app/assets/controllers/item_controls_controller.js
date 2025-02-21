@@ -11,7 +11,10 @@ export default class extends Controller {
     async loadContent(url) {
         try {
             const response = await fetch(url, {
-                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                headers: { 
+                    'X-Requested-With': 'XMLHttpRequest',
+                    "Content-Type": "application/json" 
+                }
             });
 
             if (!response.ok) {

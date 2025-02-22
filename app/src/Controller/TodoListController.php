@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Symfony\UX\Turbo\TurboStreamResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +22,7 @@ class TodoListController extends AbstractController
         $this->httpClient = $httpClient;
     }
 
-    #[Route('/', name: 'app_todolists_all')]
+    #[Route('/', name: 'app_todolists_all', methods: ['GET'])]
     function homepage(): Response
     {
         $path = $this->generateUrl('api_todolists_get_all', [], UrlGeneratorInterface::ABSOLUTE_PATH);
@@ -34,18 +36,66 @@ class TodoListController extends AbstractController
         ]);
     }
 
-    #[Route('/todolists/{id<\d+>}', name: 'app_todolists_detail')]
-    function itemPage(Request $request, string $id): Response
+    #[Route('/todolists/{id<\d+>}', name: 'app_todolists_detail', methods: ['GET'])]
+    function itemPage(string $id): Response
     {
 
         $path = $this->generateUrl('api_todolists_get', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_PATH);
         $url = 'http://nginx' . $path;
 
         $response = $this->httpClient->request('GET', $url);
-        $todoList = $response->toArray();
+        $todolist = $response->toArray();
 
         return $this->render('list/details.html.twig', [
-            'todoList' => $todoList
+            'todolist' => $todolist
         ]);
+    }
+
+    #[Route('/todolists', name: 'app_todolists_create', methods: ['POST'])]
+    function create(Request $request): Response
+    {
+        $name = $request->request->get('name');
+        if (!$name) {
+            return new JsonResponse(['error' => 'Missing name'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $path = $this->generateUrl('api_todolists_create', [], UrlGeneratorInterface::ABSOLUTE_PATH);
+        $url = 'http://nginx' . $path;
+
+        $response = $this->httpClient->request('POST', $url, [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'json' => ['name' => $name]
+        ]);
+        $todolist = $response->toArray();
+
+        return $this->render('list/_todolist_stream.html.twig', [
+            'todolist' => $todolist
+        ], new TurboStreamResponse());
+    }
+
+    #[Route('/todolists/{id<\d+>}', name: 'app_todolists_update', methods: ['PUT'])]
+    function update(string $id, Request $request): Response
+    {
+        $name = $request->request->get('name');
+        if (!$name) {
+            return new JsonResponse(['error' => 'Missing name'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $path = $this->generateUrl('api_todolists_update', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_PATH);
+        $url = 'http://nginx' . $path;
+
+        $response = $this->httpClient->request('PUT', $url, [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'json' => ['name' => $name]
+        ]);
+        $todolist = $response->toArray();
+
+        return $this->render('list/_detail_stream.html.twig', [
+            'todolist' => $todolist
+        ], new TurboStreamResponse());
     }
 }

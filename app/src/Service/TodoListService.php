@@ -40,13 +40,13 @@ class TodoListService
         return $this->normalizer->normalize($todolist, null, ['groups' => 'todo_list']);
     }
 
-    public function create(string $name): TodoList
+    public function create(string $name): array
     {
         $todolist = new TodoList();
         $todolist->setName($name);
         $now = new DateTimeImmutable();
-        $todolist->setCreatedAt($now);
-        $todolist->setUpdatedAt($now);
+        $todolist->setCreatedAt($now)
+            ->setUpdatedAt($now);
 
         $user = new User();
         $user->setId('1')
@@ -61,10 +61,24 @@ class TodoListService
         $this->entityManager->persist($todolist);
         $this->entityManager->flush();
 
-        return $todolist;
+        return $this->normalizer->normalize($todolist, null, ['groups' => 'todo_list']);
     }
 
-    public function update(): void {}
+    public function update(string $id, string $name): array
+    {
+        $todolist = $this->entityManager->getRepository(TodoList::class)->find($id);
+
+        dump(__FUNCTION__, $todolist);
+
+        $now = new DateTimeImmutable();
+        $todolist->setName($name)
+            ->setUpdatedAt($now);
+
+        $this->entityManager->persist($todolist);
+        $this->entityManager->flush();
+
+        return $this->normalizer->normalize($todolist, null, ['groups' => 'todo_list']);
+    }
 
     public function delete(): void {}
 }

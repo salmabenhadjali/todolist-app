@@ -12,19 +12,21 @@
 			<div class="col-6 col-md-6 ps-6" data-controller="todolist-controls">
 				<h2 class="mb-4">{{ lists|length }}
 					Todo List(s)</h2>
-				{% for list in lists %}
-					<div class="list">
-						<div class="d-flex mb-3">
-							<a href="#" class="btn btn-primary me-3" data-action="click->todolist-controls#loadItems" data-todolist-controls-url={{ path('app_todolists_detail', { 'id': list.id } ) }}>
-								<i class="fas fa-play"></i>
-							</a>
-							<span class="details me-3">{{ list.name }}</span>
-							<a href="#" class="btn btn-danger">
-								<i class="fas fa-times"></i>
-							</a>
+				<div id="todo-list-container">
+					{% for list in lists %}
+						<div class="list">
+							<div class="d-flex mb-3">
+								<a href="#" class="btn btn-primary me-3" data-action="click->todolist-controls#loadItems" data-todolist-controls-url={{ path('app_todolists_detail', { 'id': list.id } ) }}>
+									<i class="fas fa-play"></i>
+								</a>
+								<span class="details me-3">{{ list.name }}</span>
+								<a href="#" class="btn btn-danger">
+									<i class="fas fa-times"></i>
+								</a>
+							</div>
 						</div>
-					</div>
-				{% endfor %}
+					{% endfor %}
+				</div>
 				<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTodoListModal">
 					<i class="fas fa-plus"></i>
 					Add a new TodoList
@@ -43,7 +45,7 @@
 							class="modal-body">
 							<!-- Use Turbo Frame for the form -->
 							<turbo-frame id="add_todolist_form">
-								<form action="{{ path('api_todolists_create') }}" method="post" data-turbo-frame="todolist_frame">
+								<form action="{{ path('app_todolists_create') }}" method="post" data-controller="modal" data-action="turbo:submit-end->modal#close">
 									<div class="mb-3">
 										<label for="todoListName" class="form-label">Todo List Name</label>
 										<input type="text" class="form-control" id="todoListName" name="name" required>

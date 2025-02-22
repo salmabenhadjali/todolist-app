@@ -1,0 +1,15 @@
+<turbo-stream action="append" target="todo-list-container">
+	<template>
+		<div class="list">
+			<div class="d-flex mb-3">
+				<a href="#" class="btn btn-primary me-3" data-action="click->todolist-controls#loadItems" data-todolist-controls-url="{{ path('app_todolists_detail', { 'id': todolist.id }) }}">
+					<i class="fas fa-play"></i>
+				</a>
+				<span class="details me-3">{{ todolist.name }}</span>
+				<a href="#" class="btn btn-danger">
+					<i class="fas fa-times"></i>
+				</a>
+			</div>
+		</div>
+	</template>
+</turbo-stream>

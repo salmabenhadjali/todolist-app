@@ -68,8 +68,6 @@ class TodoListService
     {
         $todolist = $this->entityManager->getRepository(TodoList::class)->find($id);
 
-        dump(__FUNCTION__, $todolist);
-
         $now = new DateTimeImmutable();
         $todolist->setName($name)
             ->setUpdatedAt($now);
@@ -80,5 +78,10 @@ class TodoListService
         return $this->normalizer->normalize($todolist, null, ['groups' => 'todo_list']);
     }
 
-    public function delete(): void {}
+    public function delete(string $id): void
+    {
+        $todolist = $this->entityManager->getRepository(TodoList::class)->find($id);
+        $this->entityManager->remove($todolist);
+        $this->entityManager->flush();
+    }
 }

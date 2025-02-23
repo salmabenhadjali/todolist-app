@@ -91,13 +91,10 @@ class TodoListAPIController extends AbstractController
     #[Route('/api/todolists/{id<\d+>}', methods: ['DELETE'], name: 'api_todolists_delete')]
     public function delete(string $id): Response
     {
-        //TODO query to the database to delete the current Todo List
+        $this->todoListService->delete($id);
 
-        $todolist = [];
-        $this->logger->info("TodoList deleted with ID {id}", [
-            'id' => $id,
-        ]);
+        $this->logger->info("TodoList deleted with ID {id}");
 
-        return $this->json($todolist, Response::HTTP_OK);
+        return $this->json([], Response::HTTP_OK);
     }
 }

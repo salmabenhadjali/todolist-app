@@ -98,4 +98,17 @@ class TodoListController extends AbstractController
             'todolist' => $todolist
         ], new TurboStreamResponse());
     }
+
+    #[Route('/todolists/{id<\d+>}', name: 'app_todolists_delete', methods: ['DELETE'])]
+    function delete(string $id): Response
+    {
+        $path = $this->generateUrl('api_todolists_delete', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_PATH);
+        $url = 'http://nginx' . $path;
+
+        $this->httpClient->request('DELETE', $url);
+
+        return $this->render('list/_todolist_remove_stream.html.twig', [
+            'idList' => $id
+        ], new TurboStreamResponse());
+    }
 }

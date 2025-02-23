@@ -31,7 +31,7 @@
 		</div>
 	{% endfor %}
 
-	<!-- Bootstrap Modal for Adding a New TodoList -->
+	<!-- Bootstrap Modal for Editing a New TodoList -->
 	<div class="modal fade" id="editTodoListModal" tabindex="-1" aria-labelledby="editTodoListModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -46,7 +46,7 @@
 						<form action="{{ path('app_todolists_update', { 'id': todolist.id }) }}" method="put" data-controller="modal" data-action="turbo:submit-end->modal#close">
 							<div class="mb-3">
 								<label for="todoListName" class="form-label">Todo List Name</label>
-								<input type="text" class="form-control" id="todoListName" name="name" value="{{ todolist.name }}" required>
+								<input type="text" class="form-control" id="todoListName" name="name" value="{{ todolist.name }}" required autofocus>
 							</div>
 							<button type="submit" class="btn btn-primary">Save</button>
 						</form>

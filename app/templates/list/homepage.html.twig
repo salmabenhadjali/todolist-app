@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block body %}
+	<div id="spinner" class="loading-overlay d-none">
+		<div class="spinner-border text-light" role="status"></div>
+	</div>
 	<div class="container">
 		<div
 			class="row mt-5">
@@ -38,7 +41,9 @@
 										class="modal-body">
 										<!-- Use Turbo Frame for the form -->
 										<turbo-frame id="delete_todolist_form_{{list.id}}">
-											<form action="{{ path('app_todolists_delete', {'id': list.id}) }}" method="delete" data-controller="modal" data-action="turbo:submit-end->modal#close">
+											<form
+												action="{{ path('app_todolists_delete', {'id': list.id}) }}" method="delete" data-controller="modal" data-action="submit->modal#submit turbo:submit-end->modal#close">
+												{# <input type="hidden" name="_method" value="DELETE"> #}
 												<div class="mb-3">
 													<label for="todoListName" class="form-label">Are you sure you want to delete this Todo List ?</label>
 												</div>
@@ -59,7 +64,7 @@
 			</div>
 
 			<!-- Bootstrap Modal for Adding a New TodoList -->
-			<div class="modal fade" id="addTodoListModal" tabindex="-1" aria-labelledby="addTodoListModalLabel" aria-hidden="true">
+			<div class="modal fade" id="addTodoListModal" tabindex="-1" aria-labelledby="addTodoListModalLabel" aria-hidden="true" data-controller="modal">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -70,7 +75,7 @@
 							class="modal-body">
 							<!-- Use Turbo Frame for the form -->
 							<turbo-frame id="add_todolist_form">
-								<form action="{{ path('app_todolists_create') }}" method="post" data-controller="modal" data-action="turbo:submit-end->modal#close">
+								<form action="{{ path('app_todolists_create') }}" method="post" data-action="submit->modal#submit turbo:submit-end->modal#close">
 									<div class="mb-3">
 										<label for="todoListName" class="form-label">Todo List Name</label>
 										<input type="text" class="form-control" id="todoListName" name="name" required autofocus>

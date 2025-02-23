@@ -32,7 +32,7 @@
 	{% endfor %}
 
 	<!-- Bootstrap Modal for Editing a New TodoList -->
-	<div class="modal fade" id="editTodoListModal" tabindex="-1" aria-labelledby="editTodoListModalLabel" aria-hidden="true">
+	<div class="modal fade" id="editTodoListModal" tabindex="-1" aria-labelledby="editTodoListModalLabel" aria-hidden="true" data-controller="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -43,7 +43,7 @@
 					class="modal-body">
 					<!-- Use Turbo Frame for the form -->
 					<turbo-frame id="edit_todolist_form">
-						<form action="{{ path('app_todolists_update', { 'id': todolist.id }) }}" method="put" data-controller="modal" data-action="turbo:submit-end->modal#close">
+						<form action="{{ path('app_todolists_update', { 'id': todolist.id }) }}" method="put" data-action="submit->modal#submit turbo:submit-end->modal#close">
 							<div class="mb-3">
 								<label for="todoListName" class="form-label">Todo List Name</label>
 								<input type="text" class="form-control" id="todoListName" name="name" value="{{ todolist.name }}" required autofocus>

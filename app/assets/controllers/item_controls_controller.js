@@ -25,6 +25,12 @@ export default class extends Controller {
             this.element.querySelector('#dynamic-content').innerHTML = html;
         } catch (error) {
             this.element.querySelector('#dynamic-content').innerHTML = "Failed to load content.";
+        } finally {
+            // ✅ Hide spinner after loading
+            let spinner = document.getElementById('spinner');
+            if (spinner) {
+                spinner.classList.add("d-none");
+            }
         }
     }
 }

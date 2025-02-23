@@ -37,7 +37,11 @@ footer a {
   font-family: "Roboto Condensed", sans-serif;
 }
 
-.loading-overlay {
+.btn-close {
+  color: #fff;
+}
+
+#spinner {
   position: fixed;
   top: 0;
   left: 0;

@@ -1,0 +1,29 @@
+{% macro render(id, title, action, method, body, submit_text, submit_class, turbo_id, value = null) %}
+	<div class="modal fade" id="{{ id }}" tabindex="-1" aria-labelledby="{{ id }}Label" aria-hidden="true" data-controller="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="{{ id }}Label">{{ title }}</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<turbo-frame id="{{ turbo_id }}">
+						<form action="{{ action }}" method="{{ method|default('post') }}" data-action="submit->modal#submit turbo:submit-end->modal#close">
+							<div class="mb-3">
+								{{ body|raw }}
+								{% if method == 'delete' %}
+									<input type="hidden" name="_method" value="DELETE">
+								{% else %}
+									<input type="text" class="form-control" id="todoListName" name="name" value="{{ value }}" required>
+								{% endif %}
+							</div>
+
+							<button type="submit" class="btn {{ submit_class }}">{{ submit_text }}</button>
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+						</form>
+					</turbo-frame>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}

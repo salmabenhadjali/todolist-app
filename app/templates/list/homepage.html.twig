@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import 'components/modal.html.twig' as modal %}
 
 {% block title %}
 	{{ parent() }}
@@ -30,31 +31,16 @@
 						</div>
 
 						<!-- Bootstrap Modal for Removing a New TodoList -->
-						<div class="modal fade" id="deleteTodoListModal{{list.id}}" tabindex="-1" aria-labelledby="deleteTodoListModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="deleteTodoListModalLabel">Delete the Todo List</h5>
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div
-										class="modal-body">
-										<!-- Use Turbo Frame for the form -->
-										<turbo-frame id="delete_todolist_form_{{list.id}}">
-											<form
-												action="{{ path('app_todolists_delete', {'id': list.id}) }}" method="delete" data-controller="modal" data-action="submit->modal#submit turbo:submit-end->modal#close">
-												{# <input type="hidden" name="_method" value="DELETE"> #}
-												<div class="mb-3">
-													<label for="todoListName" class="form-label">Are you sure you want to delete this Todo List ?</label>
-												</div>
-												<button type="submit" class="btn btn-success">Yes</button>
-												<button data-bs-dismiss="modal" aria-label="Close" class="btn btn-danger">No</button>
-											</form>
-										</turbo-frame>
-									</div>
-								</div>
-							</div>
-						</div>
+						{{ modal.render(
+							"deleteTodoListModal" ~ list.id,
+							"Delete the Todo List",
+							path('app_todolists_delete', {'id': list.id}),
+							"delete",
+							"Are you sure you want to delete this Todo List ?",
+							"Yes, Delete",
+							"btn-danger",
+							"delete_todolist_form_" ~ list.id
+						) }}
 					{% endfor %}
 				</div>
 				<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTodoListModal">
@@ -64,33 +50,42 @@
 			</div>
 
 			<!-- Bootstrap Modal for Adding a New TodoList -->
-			<div class="modal fade" id="addTodoListModal" tabindex="-1" aria-labelledby="addTodoListModalLabel" aria-hidden="true" data-controller="modal">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="addTodoListModalLabel">Add New Todo List</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div
-							class="modal-body">
-							<!-- Use Turbo Frame for the form -->
-							<turbo-frame id="add_todolist_form">
-								<form action="{{ path('app_todolists_create') }}" method="post" data-action="submit->modal#submit turbo:submit-end->modal#close">
-									<div class="mb-3">
-										<label for="todoListName" class="form-label">Todo List Name</label>
-										<input type="text" class="form-control" id="todoListName" name="name" required autofocus>
-									</div>
-									<button type="submit" class="btn btn-primary">Save</button>
-								</form>
-							</turbo-frame>
-						</div>
-					</div>
-				</div>
-			</div>
+			{{ modal.render(
+				"addTodoListModal",
+				"Add New Todo List",
+				path('app_todolists_create'),
+				"post",
+				"Todo List Name",
+				"Save",
+				"btn-primary",
+				"add_todolist_form"
+			) }}
+			{# <div class="modal fade" id="addTodoListModal" tabindex="-1" aria-labelledby="addTodoListModalLabel" aria-hidden="true" data-controller="modal">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="addTodoListModalLabel">Add New Todo List</h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div
+													class="modal-body">
+													<!-- Use Turbo Frame for the form -->
+													<turbo-frame id="add_todolist_form">
+														<form action="{{ path('app_todolists_create') }}" method="post" data-action="submit->modal#submit turbo:submit-end->modal#close">
+															<div class="mb-3">
+																<label for="todoListName" class="form-label">Todo List Name</label>
+																<input type="text" class="form-control" id="todoListName" name="name" required autofocus>
+															</div>
+															<button type="submit" class="btn btn-primary">Save</button>
+														</form>
+													</turbo-frame>
+												</div>
+											</div>
+										</div>
+									</div> #}
 
 			<!-- Second Part -->
-			<div class="col-6 col-md-6 ps-6" data-controller="item-controls">
-				<div id="dynamic-content">Select an item to view details.</div>
+				<div class="col-6 col-md-6 ps-6" data-controller="item-controls"> <div id="dynamic-content">Select an item to view details.</div>
 			</div>
 		</div>
 	</div>

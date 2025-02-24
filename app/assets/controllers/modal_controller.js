@@ -5,7 +5,7 @@ export default class extends Controller {
     connect() {
         // Attach event listener for when modal opens
         this.element.addEventListener("shown.bs.modal", () => {
-            let input = this.element.querySelector("#add_todolist_form input, #edit_todolist_form input");
+            let input = this.element.querySelector("#add_todolist_form input, #edit_todolist_form input, #add_item_form input");
             if (input) {
                 input.focus(); // ✅ Automatically focuses on the first input field
 

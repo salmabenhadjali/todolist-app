@@ -25,7 +25,7 @@ class TodoListController extends AbstractController
     #[Route('/', name: 'app_todolists_all', methods: ['GET'])]
     function homepage(): Response
     {
-        $path = $this->generateUrl('api_todolists_get_all', [], UrlGeneratorInterface::ABSOLUTE_PATH);
+        $path = $this->generateUrl('api_todolists_all', [], UrlGeneratorInterface::ABSOLUTE_PATH);
         $url = 'http://nginx' . $path;
 
         $response = $this->httpClient->request('GET', $url);
@@ -83,7 +83,11 @@ class TodoListController extends AbstractController
             return new JsonResponse(['error' => 'Missing name'], Response::HTTP_BAD_REQUEST);
         }
 
-        $path = $this->generateUrl('api_todolists_update', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_PATH);
+        $path = $this->generateUrl(
+            'api_todolists_update',
+            ['id' => $id],
+            UrlGeneratorInterface::ABSOLUTE_PATH
+        );
         $url = 'http://nginx' . $path;
 
         $response = $this->httpClient->request('PUT', $url, [

@@ -60,32 +60,10 @@
 				"btn-primary",
 				"add_todolist_form"
 			) }}
-			{# <div class="modal fade" id="addTodoListModal" tabindex="-1" aria-labelledby="addTodoListModalLabel" aria-hidden="true" data-controller="modal">
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5 class="modal-title" id="addTodoListModalLabel">Add New Todo List</h5>
-													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-												</div>
-												<div
-													class="modal-body">
-													<!-- Use Turbo Frame for the form -->
-													<turbo-frame id="add_todolist_form">
-														<form action="{{ path('app_todolists_create') }}" method="post" data-action="submit->modal#submit turbo:submit-end->modal#close">
-															<div class="mb-3">
-																<label for="todoListName" class="form-label">Todo List Name</label>
-																<input type="text" class="form-control" id="todoListName" name="name" required autofocus>
-															</div>
-															<button type="submit" class="btn btn-primary">Save</button>
-														</form>
-													</turbo-frame>
-												</div>
-											</div>
-										</div>
-									</div> #}
 
 			<!-- Second Part -->
-				<div class="col-6 col-md-6 ps-6" data-controller="item-controls"> <div id="dynamic-content">Select an item to view details.</div>
+			<div class="col-6 col-md-6 ps-6" data-controller="item-controls">
+				<div id="dynamic-content">Select an item to view details.</div>
 			</div>
 		</div>
 	</div>

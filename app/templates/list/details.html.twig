@@ -1,8 +1,9 @@
 {% import 'components/modal.html.twig' as modal %}
+{% import 'components/modal.item.html.twig' as modalItem %}
 
-<div>
+<div id="detail-content">
 	<h2 class="mb-4">
-		<div id="todo-list-name">
+		<div>
 			{{ todolist.name ~ '(' ~ todolist.items|length ~ ')' }}
 		</div>
 		<i class="fas fa-edit" data-bs-toggle="modal" data-bs-target="#editTodoListModal"></i>
@@ -19,17 +20,17 @@
 					<i class="fas fa-times text-danger"></i>
 				</a>
 			</div>
-			{% for subItem in item.subItems %}
-				<div class="sublist">
-					<div class="d-flex mb-3">
-						<input type="checkbox" class="me-3"/>
-						<span class="details me-3">{{ subItem }}</span>
-						<a href="#">
-							<i class="fas fa-times text-danger"></i>
-						</a>
-					</div>
-				</div>
-			{% endfor %}
+			{# {% for subItem in item.subItems %}
+																							<div class="sublist">
+																								<div class="d-flex mb-3">
+																									<input type="checkbox" class="me-3"/>
+																									<span class="details me-3">{{ subItem }}</span>
+																									<a href="#">
+																										<i class="fas fa-times text-danger"></i>
+																									</a>
+																								</div>
+																							</div>
+																						{% endfor %} #}
 		</div>
 	{% endfor %}
 
@@ -46,7 +47,20 @@
 		todolist.name
 	) }}
 
-	<button type="button" class="btn btn-success">
+	<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addItemModal">
 		<i class="fas fa-plus"></i>
 		Add a new item</button>
+
+	<!-- Bootstrap Modal for Adding a New Item -->
+	{{ modalItem.render(
+		"addItemModal",
+		"Add New Item",
+		path('app_items_create', {'idList': todolist.id}),
+		"post",
+		"Item title",
+		"Save",
+		"btn-primary",
+		"add_item_form",
+		todolist.id
+	) }}
 </div>

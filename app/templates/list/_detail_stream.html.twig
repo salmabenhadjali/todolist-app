@@ -1,7 +1,5 @@
-<turbo-stream action="replace" target="todo-list-name">
+<turbo-stream action="replace" target="detail-content">
 	<template>
-		<div id="todo-list-name">
-			{{ todolist.name ~ '(' ~ todolist.items|length ~ ')' }}
-		</div>
+		{% include 'list/details.html.twig' %}
 	</template>
 </turbo-stream>

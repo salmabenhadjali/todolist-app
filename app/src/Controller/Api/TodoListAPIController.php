@@ -2,19 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
-use App\Entity\User;
-use DateTimeImmutable;
-use App\Entity\TodoList;
 use Psr\Log\LoggerInterface;
 use App\Service\TodoListService;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\UX\Turbo\TurboStreamResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TodoListAPIController extends AbstractController
@@ -28,7 +22,7 @@ class TodoListAPIController extends AbstractController
         $this->todoListService = $todoListService;
     }
 
-    #[Route('/api/todolists', methods: ['GET'], name: 'api_todolists_get_all')]
+    #[Route('/api/todolists', methods: ['GET'], name: 'api_todolists_all')]
     public function list(): Response
     {
         $todolists = $this->todoListService->list();
@@ -41,6 +35,7 @@ class TodoListAPIController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         $name = $data['name'] ?? null;
+
 
         if (!$name) {
             $this->logger->error('Invalid data for creating a TodoList');

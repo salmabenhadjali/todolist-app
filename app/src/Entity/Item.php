@@ -14,15 +14,14 @@ class Item
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['item_list'])]
+    #[Groups(['item_list', 'todo_list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['item_list'])]
+    #[Groups(['item_list', 'todo_list'])]
     private ?string $title = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
-    #[Groups(['item_list'])]
     private ?TodoList $todoList = null;
 
     #[ORM\Column]
@@ -32,12 +31,12 @@ class Item
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column]
-    private ?bool $is_completed = null;
+    private ?bool $is_completed = false;
 
     /**
      * @var Collection<int, SubItem>
      */
-    #[ORM\OneToMany(targetEntity: SubItem::class, mappedBy: 'item_id', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: SubItem::class, mappedBy: 'item', orphanRemoval: true)]
     private Collection $subItems;
 
     public function __construct()

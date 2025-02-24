@@ -4,7 +4,7 @@
 <div id="detail-content">
 	<h2 class="mb-4">
 		<div>
-			{{ todolist.name ~ '(' ~ todolist.items|length ~ ')' }}
+			{{ todolist.name ~ ' (' ~ todolist.items|length ~ ')' }}
 		</div>
 		<i class="fas fa-edit" data-bs-toggle="modal" data-bs-target="#editTodoListModal"></i>
 	</h2>
@@ -21,16 +21,16 @@
 				</a>
 			</div>
 			{# {% for subItem in item.subItems %}
-																							<div class="sublist">
-																								<div class="d-flex mb-3">
-																									<input type="checkbox" class="me-3"/>
-																									<span class="details me-3">{{ subItem }}</span>
-																									<a href="#">
-																										<i class="fas fa-times text-danger"></i>
-																									</a>
-																								</div>
-																							</div>
-																						{% endfor %} #}
+																										<div class="sublist">
+																											<div class="d-flex mb-3">
+																												<input type="checkbox" class="me-3"/>
+																												<span class="details me-3">{{ subItem }}</span>
+																												<a href="#">
+																													<i class="fas fa-times text-danger"></i>
+																												</a>
+																											</div>
+																										</div>
+																									{% endfor %} #}
 		</div>
 	{% endfor %}
 

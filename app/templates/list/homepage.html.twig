@@ -1,70 +1,9 @@
 {% extends 'base.html.twig' %}
-{% import 'components/modal.html.twig' as modal %}
 
 {% block title %}
 	{{ parent() }}
 {% endblock %}
 
 {% block body %}
-	<div id="spinner" class="loading-overlay d-none">
-		<div class="spinner-border text-light" role="status"></div>
-	</div>
-	<div class="container">
-		<div
-			class="row mt-5">
-			<!-- First Part -->
-			<div class="col-6 col-md-6 ps-6" data-controller="todolist-controls">
-				<h2 class="mb-4">{{ lists|length }}
-					Todo List(s)</h2>
-				<div id="todo-list-container">
-					{% for list in lists %}
-						<div class="list" id="todo-list-{{list.id}}">
-							<div class="d-flex mb-3">
-								<a href="#" class="btn btn-primary me-3" data-action="click->todolist-controls#loadItems" data-todolist-controls-url={{ path('app_todolists_detail', { 'id': list.id } ) }}>
-									<i class="fas fa-play"></i>
-								</a>
-								<span class="details me-3">{{ list.name }}</span>
-								<a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTodoListModal{{list.id}}">
-									<i class="fas fa-times"></i>
-								</a>
-							</div>
-						</div>
-
-						<!-- Bootstrap Modal for Removing a New TodoList -->
-						{{ modal.render(
-							"deleteTodoListModal" ~ list.id,
-							"Delete the Todo List",
-							path('app_todolists_delete', {'id': list.id}),
-							"delete",
-							"Are you sure you want to delete this Todo List ?",
-							"Yes, Delete",
-							"btn-danger",
-							"delete_todolist_form_" ~ list.id
-						) }}
-					{% endfor %}
-				</div>
-				<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTodoListModal">
-					<i class="fas fa-plus"></i>
-					Add a new TodoList
-				</button>
-			</div>
-
-			<!-- Bootstrap Modal for Adding a New TodoList -->
-			{{ modal.render(
-				"addTodoListModal",
-				"Add New Todo List",
-				path('app_todolists_create'),
-				"post",
-				"Todo List Name",
-				"Save",
-				"btn-primary",
-				"add_todolist_form"
-			) }}
-
-			<!-- Second Part -->
-			<div class="col-6 col-md-6 ps-6" data-controller="item-controls">
-				<div id="dynamic-content">Select an item to view details.</div>
-			</div>
-		</div>
-	</div>
+	{% include 'list/todolist.html.twig' %}
 {% endblock %}

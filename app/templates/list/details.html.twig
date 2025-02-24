@@ -1,7 +1,6 @@
-{% import 'components/modal.html.twig' as modal %}
-{% import 'components/modal.item.html.twig' as modalItem %}
-
 <div id="detail-content">
+	{% import 'components/modal.html.twig' as modal %}
+	{% import 'components/modal.item.html.twig' as modalItem %}
 	<h2 class="mb-4">
 		<div>
 			{{ todolist.name ~ ' (' ~ todolist.items|length ~ ')' }}
@@ -21,16 +20,16 @@
 				</a>
 			</div>
 			{# {% for subItem in item.subItems %}
-																										<div class="sublist">
-																											<div class="d-flex mb-3">
-																												<input type="checkbox" class="me-3"/>
-																												<span class="details me-3">{{ subItem }}</span>
-																												<a href="#">
-																													<i class="fas fa-times text-danger"></i>
-																												</a>
-																											</div>
-																										</div>
-																									{% endfor %} #}
+																													<div class="sublist">
+																														<div class="d-flex mb-3">
+																															<input type="checkbox" class="me-3"/>
+																															<span class="details me-3">{{ subItem }}</span>
+																															<a href="#">
+																																<i class="fas fa-times text-danger"></i>
+																															</a>
+																														</div>
+																													</div>
+																												{% endfor %} #}
 		</div>
 	{% endfor %}
 

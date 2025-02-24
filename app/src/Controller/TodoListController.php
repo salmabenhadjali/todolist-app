@@ -29,7 +29,7 @@ class TodoListController extends AbstractController
         $todoLists = $this->apiService->get('api_todolists_all', []);
 
         return $this->render('list/homepage.html.twig', [
-            'lists' => $todoLists
+            'todolists' => $todoLists
         ]);
     }
 
@@ -51,15 +51,17 @@ class TodoListController extends AbstractController
             return new JsonResponse(['error' => 'Missing name'], Response::HTTP_BAD_REQUEST);
         }
 
-        $todolist = $this->apiService->post('api_todolists_create', [], [
+        $this->apiService->post('api_todolists_create', [], [
             'headers' => [
                 'Content-Type' => 'application/json'
             ],
             'json' => ['name' => $name]
         ]);
 
+        $todoLists = $this->apiService->get('api_todolists_all', []);
+
         return $this->render('list/_todolist_stream.html.twig', [
-            'todolist' => $todolist
+            'todolists' => $todoLists
         ], new TurboStreamResponse());
     }
 
@@ -86,10 +88,12 @@ class TodoListController extends AbstractController
     #[Route('/todolists/{id<\d+>}', name: 'app_todolists_delete', methods: ['DELETE'])]
     function delete(string $id): Response
     {
-        $this->apiService->get('api_todolists_delete', ['id' => $id]);;
+        $this->apiService->delete('api_todolists_delete', ['id' => $id]);
 
-        return $this->render('list/_todolist_remove_stream.html.twig', [
-            'idList' => $id
+        $todoLists = $this->apiService->get('api_todolists_all', []);
+
+        return $this->render('list/_todolist_stream.html.twig', [
+            'todolists' => $todoLists
         ], new TurboStreamResponse());
     }
 }

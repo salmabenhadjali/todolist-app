@@ -8,7 +8,7 @@
 				</div>
 				<div class="modal-body">
 					<turbo-frame id="{{ turbo_id }}">
-						<form action="{{ action }}" method="{{ method|default('post') }}" data-action="submit->modal#submit turbo:submit-end->modal#close">
+						<form action="{{ action }}" method="{{ method|default('post') }}" data-turbo-frame="todolist" data-action="submit->modal#submit turbo:submit-end->modal#close">
 							<div class="mb-3">
 								{{ body|raw }}
 								{% if method == 'delete' %}

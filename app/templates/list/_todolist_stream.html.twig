@@ -1,29 +1,5 @@
-{% import 'components/modal.html.twig' as modal %}
-
-<turbo-stream action="append" target="todo-list-container">
+<turbo-stream action="replace" target="todolist">
 	<template>
-		<div class="list" id="todo-list-{{todolist.id}}">
-			<div class="d-flex mb-3">
-				<a href="#" class="btn btn-primary me-3" data-action="click->todolist-controls#loadItems" data-todolist-controls-url="{{ path('app_todolists_detail', { 'id': todolist.id }) }}">
-					<i class="fas fa-play"></i>
-				</a>
-				<span class="details me-3">{{ todolist.name }}</span>
-				<a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTodoListModal{{todolist.id}}">
-					<i class="fas fa-times"></i>
-				</a>
-			</div>
-		</div>
-
-		<!-- Bootstrap Modal for Removing a New TodoList -->
-		{{ modal.render(
-			"deleteTodoListModal" ~ todolist.id,
-			"Delete the Todo List",
-			path('app_todolists_delete', {'id': todolist.id}),
-			"delete",
-			"Are you sure you want to delete this Todo List ?",
-			"Yes, Delete",
-			"btn-danger",
-			"delete_todolist_form_" ~ todolist.id
-		) }}
+		{% include 'list/todolist.html.twig' %}
 	</template>
 </turbo-stream>

@@ -11,10 +11,8 @@
 						<form action="{{ action }}" method="{{ method|default('post') }}" data-turbo-frame="todolist" data-action="submit->modal#submit turbo:submit-end->modal#close">
 							<div class="mb-3">
 								{{ body|raw }}
-								{% if method == 'delete' %}
-									<input type="hidden" name="_method" value="DELETE">
-								{% else %}
-									<input type="text" class="form-control" id="todoListName" name="name" value="{{ value }}" required>
+								{% if method != 'delete' %}
+									<input type="text" class="form-control" name="name" value="{{ value }}" required>
 								{% endif %}
 							</div>
 

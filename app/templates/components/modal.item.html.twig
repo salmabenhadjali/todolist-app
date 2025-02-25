@@ -1,4 +1,4 @@
-{% macro render(id, title, action, method, body, submit_text, submit_class, turbo_id, idList, value = null) %}
+{% macro render(id, title, action, method, body, submit_text, submit_class, turbo_id, value = null) %}
 	<div class="modal fade" id="{{ id }}" tabindex="-1" aria-labelledby="{{ id }}Label" aria-hidden="true" data-controller="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -11,10 +11,8 @@
 						<form action="{{ action }}" method="{{ method|default('post') }}" data-turbo-frame="detail-content" data-action="submit->modal#submit turbo:submit-end->modal#close">
 							<div class="mb-3">
 								{{ body|raw }}
-								{% if method == 'delete' %}
-									<input type="hidden" name="_method" value="DELETE">
-								{% else %}
-									<input type="text" class="form-control" id="todoListName" name="title" value="{{ value }}" required>
+								{% if method != 'delete' %}
+									<input type="text" class="form-control" name="title" value="{{ value }}" required>
 								{% endif %}
 							</div>
 

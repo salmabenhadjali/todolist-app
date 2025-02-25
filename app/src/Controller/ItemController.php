@@ -58,7 +58,7 @@ class ItemController extends AbstractController
             'json' => ['title' => $title]
         ]);
 
-        $todolist = $this->apiService->get('api_items_get', ['id' => $item['todolist']]);
+        $todolist = $this->apiService->get('api_todolists_get', ['id' => $item['todoList']['id']]);
 
         return $this->render('list/_detail_stream.html.twig', [
             'todolist' => $todolist

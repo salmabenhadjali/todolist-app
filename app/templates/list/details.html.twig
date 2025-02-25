@@ -12,23 +12,24 @@
 			<div class="d-flex mb-3">
 				<input type="checkbox" class="me-3"/>
 				<span class="details me-3">{{ item.title }}</span>
-				<i class="fas fa-plus text-success me-3"></i>
-				<i class="fas fa-times text-danger" data-bs-toggle="modal" data-bs-target="#deleteItemModal"></i>
+				<i class="fas fa-edit me-3" data-bs-toggle="modal" data-bs-target="#editItemModal{{item.id}}"></i>
+				<i class="fas fa-times text-danger me-3" data-bs-toggle="modal" data-bs-target="#deleteItemModal{{item.id}}"></i>
+				<i class="fas fa-plus text-success"></i>
 			</div>
 			{# {% for subItem in item.subItems %}
-													<div class="sublist">
-														<div class="d-flex mb-3">
-															<input type="checkbox" class="me-3"/>
-															<span class="details me-3">{{ subItem }}</span>
-															<a href="#">
-																<i class="fas fa-times text-danger"></i>
-															</a>
-														</div>
-													</div>
-												{% endfor %} #}
-			<!-- Bootstrap Modal for Adding a New Item -->
+							<div class="sublist">
+								<div class="d-flex mb-3">
+									<input type="checkbox" class="me-3"/>
+									<span class="details me-3">{{ subItem }}</span>
+									<a href="#">
+										<i class="fas fa-times text-danger"></i>
+									</a>
+								</div>
+							</div>
+						{% endfor %} #}
+			<!-- Bootstrap Modal for Deleting an Item -->
 			{{ modalItem.render(
-				"deleteItemModal",
+				"deleteItemModal" ~ item.id,
 				"Delete the Item",
 				path('app_items_delete', {'id': item.id}),
 				"delete",
@@ -36,6 +37,19 @@
 				"Yes, Delete",
 				"btn-danger",
 				"delete_item_form_" ~ item.id
+			) }}
+
+			<!-- Bootstrap Modal for Editing an Item -->
+			{{ modalItem.render(
+				"editItemModal" ~ item.id,
+				"Edit the Todo List name",
+				path('app_items_update', {'id': item.id}),
+				"put",
+				"Item title",
+				"Save",
+				"btn-primary",
+				"edit_item_form_" ~ item.id,
+				item.title
 			) }}
 		</div>
 	{% endfor %}
@@ -66,7 +80,6 @@
 		"Item title",
 		"Save",
 		"btn-primary",
-		"add_item_form",
-		todolist.id
+		"add_item_form"
 	) }}
 </div>

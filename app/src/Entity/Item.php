@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
+#[ORM\Table(name: "item")]
 class Item
 {
     #[ORM\Id]
@@ -35,10 +36,14 @@ class Item
     #[Groups(['item_list', 'todo_list'])]
     private ?bool $is_completed = false;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'subItem')]
+    private ?self $parentItem = null;
+
     /**
-     * @var Collection<int, SubItem>
+     * @var Collection<int, self>
      */
-    #[ORM\OneToMany(targetEntity: SubItem::class, mappedBy: 'item', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parentItem')]
+    #[Groups(['item_list', 'todo_list'])]
     private Collection $subItems;
 
     public function __construct()
@@ -118,30 +123,42 @@ class Item
         return $this;
     }
 
+    public function getParentItem(): ?self
+    {
+        return $this->parentItem;
+    }
+
+    public function setParentItem(?self $parentItem): static
+    {
+        $this->parentItem = $parentItem;
+
+        return $this;
+    }
+
     /**
-     * @return Collection<int, SubItem>
+     * @return Collection<int, self>
      */
     public function getSubItems(): Collection
     {
         return $this->subItems;
     }
 
-    public function addSubItem(SubItem $subItem): static
+    public function addSubItem(self $subItem): static
     {
         if (!$this->subItems->contains($subItem)) {
             $this->subItems->add($subItem);
-            $subItem->setItem($this);
+            $subItem->setParentItem($this);
         }
 
         return $this;
     }
 
-    public function removeSubItem(SubItem $subItem): static
+    public function removeSubItem(self $subItem): static
     {
         if ($this->subItems->removeElement($subItem)) {
             // set the owning side to null (unless already changed)
-            if ($subItem->getItem() === $this) {
-                $subItem->setItem(null);
+            if ($subItem->getParentItem() === $this) {
+                $subItem->setParentItem(null);
             }
         }
 

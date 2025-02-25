@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TodoListRepository::class)]
+#[ORM\Table(name: "todolist")]
 class TodoList
 {
     #[ORM\Id]

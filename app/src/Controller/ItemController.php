@@ -43,6 +43,28 @@ class ItemController extends AbstractController
         ], new TurboStreamResponse());
     }
 
+    #[Route('/items/{id<\d+>}/sub-items', name: 'app_subitems_create', methods: ['POST'])]
+    function createSubItem(Request $request, string $id): Response
+    {
+        $title = $request->request->get('title');
+        if (!$title) {
+            return new JsonResponse(['error' => 'Missing title'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $item = $this->apiService->post('api_subitems_create', ['id' => $id], [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'json' => ['title' => $title]
+        ]);
+
+        $todolist = $this->apiService->get('api_todolists_get', ['id' => $item['todoList']['id']]);
+
+        return $this->render('list/_detail_stream.html.twig', [
+            'todolist' => $todolist
+        ], new TurboStreamResponse());
+    }
+
     #[Route('/items/{id<\d+>}', name: 'app_items_update', methods: ['PUT'])]
     function update(string $id, Request $request): Response
     {

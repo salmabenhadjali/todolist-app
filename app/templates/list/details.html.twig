@@ -14,19 +14,18 @@
 				<span class="details me-3">{{ item.title }}</span>
 				<i class="fas fa-edit me-3" data-bs-toggle="modal" data-bs-target="#editItemModal{{item.id}}"></i>
 				<i class="fas fa-times text-danger me-3" data-bs-toggle="modal" data-bs-target="#deleteItemModal{{item.id}}"></i>
-				<i class="fas fa-plus text-success"></i>
+				<i class="fas fa-plus text-success" data-bs-toggle="modal" data-bs-target="#addSubItemModal{{item.id}}"></i>
 			</div>
-			{# {% for subItem in item.subItems %}
-							<div class="sublist">
-								<div class="d-flex mb-3">
-									<input type="checkbox" class="me-3"/>
-									<span class="details me-3">{{ subItem }}</span>
-									<a href="#">
-										<i class="fas fa-times text-danger"></i>
-									</a>
-								</div>
-							</div>
-						{% endfor %} #}
+			{% for subItem in item.subItems %}
+				<div class="sublist">
+					<div class="d-flex mb-3">
+						<input type="checkbox" class="me-3"/>
+						<span class="details me-3">{{ subItem.title }}</span>
+						<i class="fas fa-edit me-3" data-bs-toggle="modal" data-bs-target="#editItemModal{{subItem.id}}"></i>
+						<i class="fas fa-times text-danger" data-bs-toggle="modal" data-bs-target="#deleteItemModal{{subItem.id}}"></i>
+					</div>
+				</div>
+			{% endfor %}
 			<!-- Bootstrap Modal for Deleting an Item -->
 			{{ modalItem.render(
 				"deleteItemModal" ~ item.id,
@@ -42,7 +41,7 @@
 			<!-- Bootstrap Modal for Editing an Item -->
 			{{ modalItem.render(
 				"editItemModal" ~ item.id,
-				"Edit the Todo List name",
+				"Edit the Item",
 				path('app_items_update', {'id': item.id}),
 				"put",
 				"Item title",
@@ -51,6 +50,19 @@
 				"edit_item_form_" ~ item.id,
 				item.title
 			) }}
+
+			<!-- Bootstrap Modal for Adding a subItem to the Item -->
+			{{ modalItem.render(
+				"addSubItemModal" ~ item.id,
+				"Add a sub Item",
+				path('app_subitems_create', {'id': item.id}),
+				"post",
+				"Item title",
+				"Save",
+				"btn-primary",
+				"add_subItem_form_" ~ item.id
+			) }}
+
 		</div>
 	{% endfor %}
 

@@ -50,13 +50,16 @@ class ItemService
         $this->entityManager->persist($item);
         $this->entityManager->flush();
 
-        return $this->normalizer->normalize($item, null, ['groups' => 'todo_list']);
+        return $this->normalizer->normalize($item, null, ['groups' => 'item_list']);
     }
 
-    public function delete(string $id): void
+    public function delete(string $id): array
     {
         $item = $this->entityManager->getRepository(Item::class)->find($id);
+
         $this->entityManager->remove($item);
         $this->entityManager->flush();
+
+        return $this->normalizer->normalize($item, null, ['groups' => 'item_list']);
     }
 }

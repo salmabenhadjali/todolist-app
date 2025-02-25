@@ -15,11 +15,11 @@ class TodoList
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['todo_list'])]
+    #[Groups(['todo_list_all', 'todo_list', 'item_list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['todo_list'])]
+    #[Groups(['todo_list_all', 'todo_list'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

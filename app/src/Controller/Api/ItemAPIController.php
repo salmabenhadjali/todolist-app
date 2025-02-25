@@ -28,16 +28,12 @@ class ItemAPIController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $title = $data['title'] ?? null;
 
-        dump('API', $title);
-
         if (!$title) {
             $this->logger->error('Invalid data for creating an Item');
             return $this->json(['message' => 'Invalid data'], Response::HTTP_BAD_REQUEST);
         };
 
         $item = $this->itemService->create($idList, $title);
-
-        dump(__FUNCTION__, $item);
 
         $this->logger->info('Item cretaed with ID {id}', [
             'id' => $item['id'],
@@ -69,10 +65,10 @@ class ItemAPIController extends AbstractController
     #[Route('/api/items/{id<\d+>}', methods: ['DELETE'], name: 'api_items_delete')]
     public function delete(string $id): Response
     {
-        $this->itemService->delete($id);
+        $item = $this->itemService->delete($id);
 
         $this->logger->info("Item deleted with ID {id}");
 
-        return $this->json([], Response::HTTP_OK);
+        return $this->json($item, Response::HTTP_OK);
     }
 }

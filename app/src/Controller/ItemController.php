@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ItemController extends AbstractController
@@ -53,14 +51,14 @@ class ItemController extends AbstractController
             return new JsonResponse(['error' => 'Missing title'], Response::HTTP_BAD_REQUEST);
         }
 
-        $item = $this->apiService->put('api_todolists_update', ['id' => $id], [
+        $item = $this->apiService->put('api_items_update', ['id' => $id], [
             'headers' => [
                 'Content-Type' => 'application/json'
             ],
             'json' => ['title' => $title]
         ]);
 
-        $todolist = $this->apiService->get('api_todolists_get', ['id' => $item['todolist']]);
+        $todolist = $this->apiService->get('api_items_get', ['id' => $item['todolist']]);
 
         return $this->render('list/_detail_stream.html.twig', [
             'todolist' => $todolist
@@ -70,10 +68,12 @@ class ItemController extends AbstractController
     #[Route('/items/{id<\d+>}', name: 'app_items_delete', methods: ['DELETE'])]
     function delete(string $id): Response
     {
-        $item = $this->apiService->delete('api_todolists_delete', ['id' => $id]);
+        $item = $this->apiService->delete('api_items_delete', ['id' => $id]);
 
-        return $this->render('list/_todolist_remove_stream.html.twig', [
-            'idList' => $id
+        $todolist = $this->apiService->get('api_todolists_get', ['id' => $item['todoList']['id']]);
+
+        return $this->render('list/_detail_stream.html.twig', [
+            'todolist' => $todolist
         ], new TurboStreamResponse());
     }
 }

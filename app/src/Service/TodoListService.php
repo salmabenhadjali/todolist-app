@@ -28,7 +28,7 @@ class TodoListService
         // Normalize each object in the array
         return array_map(
             fn($todolist) =>
-            $this->normalizer->normalize($todolist, null, ['groups' => 'todo_list']),
+            $this->normalizer->normalize($todolist, null, ['groups' => 'todo_list_all']),
             $todolists
         );
     }

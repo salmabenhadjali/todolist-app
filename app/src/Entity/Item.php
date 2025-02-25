@@ -22,6 +22,7 @@ class Item
     private ?string $title = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
+    #[Groups(['item_list'])]
     private ?TodoList $todoList = null;
 
     #[ORM\Column]
@@ -31,6 +32,7 @@ class Item
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column]
+    #[Groups(['item_list', 'todo_list'])]
     private ?bool $is_completed = false;
 
     /**

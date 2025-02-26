@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\User;
 use DateTimeImmutable;
 use App\Entity\TodoList;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,16 +47,6 @@ class TodoListService
         $todolist->setCreatedAt($now)
             ->setUpdatedAt($now);
 
-        $user = new User();
-        $user->setId('1')
-            ->setUsername('Salma')
-            ->setEmail('Salma@bha.com')
-            ->setPassword('Password')
-            ->setCreatedAt($now);
-
-        $todolist->setUser($user);
-
-        $this->entityManager->persist($user);
         $this->entityManager->persist($todolist);
         $this->entityManager->flush();
 

@@ -31,7 +31,9 @@ services:
       - ./app:/var/www/app
       # this will mount the custom `.ini` to the container
       # - ${PWD}/docker/php/php.ini:/usr/local/etc/php/php.ini:ro
-      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/php.${APP_ENV}.ini:/usr/local/etc/php/php.ini
+    environment:
+      APP_ENV: ${APP_ENV}
     networks:
       - monitoring
 

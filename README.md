@@ -1,4 +1,4 @@
-# Project Name
+# TodoList App
 
 **Description:**
 This project is a Symfony-based web application that utilizes modern JavaScript and CSS tools, including Webpack Encore and the Symfony Stimulus bundle. It is designed to run within a Dockerized environment with services for `nginx` and `php-fpm`. The project supports live development features like file watching and hot module replacement (HMR) via Webpack.
@@ -20,14 +20,14 @@ This project is a Symfony-based web application that utilizes modern JavaScript 
 
 ```
 .
-├── app/                 # Symfony application source code
-│   ├── assets/          # Frontend assets (JavaScript, CSS)
-├── docker/              # Docker configuration
-│   ├── nginx/           # Nginx configuration files
-│   ├── php/             # PHP-FPM configuration files
-│   ├── php.ini          # Custom PHP settings
-├── docker-compose.yml   # Docker Compose configuration
-├── var/                 # Logs and cache
+├── app/                   # Symfony application source code
+│   ├── assets/            # Frontend assets (JavaScript, CSS)
+├── docker/                # Docker configuration
+│   ├── nginx/             # Nginx configuration files
+│   ├── php/               # PHP-FPM configuration files
+│   ├── php.${APP_ENV}.ini # Custom PHP settings
+├── docker-compose.yml     # Docker Compose configuration
+├── var/                   # Logs and cache
 ```
 
 ---
@@ -46,8 +46,8 @@ Before running this project, ensure you have the following installed:
 1. **Clone the Repository:**
 
    ```bash
-   git clone git@github.com:salmabenhadjali/usecase-mediateam.git
-   cd usecase-mediateam
+   git clone git@github.com:salmabenhadjali/todolist-app.git
+   cd todolist-app
    ```
 
 2. **Add the DOMAIN Name to Hosts File:**

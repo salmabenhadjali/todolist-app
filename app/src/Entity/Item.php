@@ -36,13 +36,13 @@ class Item
     #[Groups(['item_list', 'todo_list'])]
     private ?bool $is_completed = false;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'subItem')]
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'subItems')]
     private ?self $parentItem = null;
 
     /**
      * @var Collection<int, self>
      */
-    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parentItem')]
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parentItem', cascade: ['persist', 'remove'])]
     #[Groups(['item_list', 'todo_list'])]
     private Collection $subItems;
 

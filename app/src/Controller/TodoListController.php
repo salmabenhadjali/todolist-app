@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TodoListController extends AbstractController
@@ -23,9 +21,15 @@ class TodoListController extends AbstractController
         $this->apiService = $apiService;
     }
 
-    #[Route('/', name: 'app_todolists_all', methods: ['GET'])]
+    #[Route('/', name: 'app_home', methods: ['GET'])]
     function homepage(): Response
     {
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $todoLists = $this->apiService->get('api_todolists_all', []);
 
         return $this->render('list/homepage.html.twig', [
@@ -52,10 +56,9 @@ class TodoListController extends AbstractController
         }
 
         $this->apiService->post('api_todolists_create', [], [
-            'headers' => [
-                'Content-Type' => 'application/json'
-            ],
-            'json' => ['name' => $name]
+            'json' => [
+                'name' => $name
+            ]
         ]);
 
         $todoLists = $this->apiService->get('api_todolists_all', []);
@@ -74,9 +77,6 @@ class TodoListController extends AbstractController
         }
 
         $todolist = $this->apiService->put('api_todolists_update', ['id' => $id], [
-            'headers' => [
-                'Content-Type' => 'application/json'
-            ],
             'json' => ['name' => $name]
         ]);
 

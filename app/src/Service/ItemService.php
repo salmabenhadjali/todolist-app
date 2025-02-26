@@ -43,7 +43,7 @@ class ItemService
     {
         $item = $this->entityManager->getRepository(Item::class)->find($id);
 
-        return $this->normalizer->normalize($item, null, ['groups' => 'item_list']);
+        return $this->normalizer->normalize($item, null, ['groups' => 'item_list']) ?? [];
     }
 
     public function createSubItem(string $id, string $title): array
@@ -54,7 +54,6 @@ class ItemService
 
         $item = new Item();
         $item->setTitle($title)
-            ->setTodoList($parentItem->getTodoList())
             ->setParentItem($parentItem)
             ->setCreatedAt($now)
             ->setUpdatedAt($now);
@@ -62,7 +61,10 @@ class ItemService
         $this->entityManager->persist($item);
         $this->entityManager->flush();
 
-        return $this->normalizer->normalize($item, null, ['groups' => 'item_list']);
+        return [
+            'item' => $this->normalizer->normalize($parentItem, null, ['groups' => 'item_list']),
+            'subItem' => $this->normalizer->normalize($item, null, ['groups' => 'item_list'])
+        ];
     }
 
     public function update(string $id, string $title): array

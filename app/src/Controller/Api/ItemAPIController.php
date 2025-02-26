@@ -53,13 +53,21 @@ class ItemAPIController extends AbstractController
             return $this->json(['message' => 'Invalid data'], Response::HTTP_BAD_REQUEST);
         };
 
-        $item = $this->itemService->createSubItem($id, $title);
+        $data = $this->itemService->createSubItem($id, $title);
 
         $this->logger->info('Item cretaed with ID {id}', [
-            'id' => $item['id'],
+            'id' => $data['subItem']['id'],
         ]);
 
-        return $this->json($item, Response::HTTP_CREATED);
+        return $this->json($data, Response::HTTP_CREATED);
+    }
+
+    #[Route('/api/items/{id<\d+>}/sub-items', methods: ['GET'], name: 'api_items_get')]
+    public function getItem(string $id): Response
+    {
+        $item = $this->itemService->get($id);
+
+        return $this->json($item, Response::HTTP_OK);
     }
 
     #[Route('/api/items/{id<\d+>}', methods: ['PUT'], name: 'api_items_update')]

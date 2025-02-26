@@ -26,7 +26,7 @@
 		<!-- Main Navigation -->
 		<nav class="navbar navbar-expand-lg navbar-dark  mb-5" style="background-color: #27333A;">
 			<div class="container-fluid">
-				<a class="navbar-brand" href={{ path('app_todolists_all') }}>
+				<a class="navbar-brand" href={{ path('app_home') }}>
 					<i class="fas fa-list-check" style="color: #ffffff;"></i>
 					Todo List App
 				</a>
@@ -34,57 +34,60 @@
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavDropdown">
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link" style="margin-top: 20px;">Username</a>
-						</li>
-						<!-- Not Authenticated -->
-						<!-- <li class="nav-item"><button href="#" class="btn btn-primary btn-sm">Login</button></li> -->
-						<!-- End Not Authenticated -->
-
+					<ul
+						class="navbar-nav">
 						<!-- If Authenticated -->
-							<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								<i class="fas fa-user-astronaut p-2" style="border: solid 1px #fff; border-radius: 50px; font-size: 40px;"></i>
-							</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<li>
-									<a class="dropdown-item" href="#">My Lists</a>
-								</li>
-								<li>
-									<a class="dropdown-item" href="#">Logout</a>
-								</li>
-							</ul>
-						</li>
+						{% if is_granted('ROLE_USER') %}
+							<li class="nav-item">
+								<a class="nav-link" style="margin-top: 20px;">{{ app.user.username }}</a>
+							</li>
+
+
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<i class="fas fa-user-astronaut p-2" style="border: solid 1px #fff; border-radius: 50px; font-size: 40px;"></i>
+								</a>
+								<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+									<li>
+										<a class="dropdown-item" href="#">My Lists</a>
+									</li>
+									<li>
+										<a class="dropdown-item" href={{path('app_logout')}}>Logout</a>
+									</li>
+								</ul>
+							</li>
+
+						{% endif %}
 						<!-- End If Authenticated -->
 					</ul>
 				</div>
 			</div>
 		</nav>
 		<!-- End Main Navigation -->
+		<div class="container"> {% block body %}{% endblock %}
+			</div>
 
-		{% block body %}{% endblock %}
+			<!-- Footer -->
+			<div class="container mt-5">
+				<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+					<div class="col-md-4 d-flex align-items-center">
+						<span class="me-1" style="color: red;">
+							<i class="fas fa-heart"></i>
+						</span>
+						<span class=" me-1">All rights reserved.</span>
+					</div>
 
-		<!-- Footer -->
-		<div class="container mt-5">
-			<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-				<div class="col-md-4 d-flex align-items-center">
-					<span class="me-1" style="color: red;">
-						<i class="fas fa-heart"></i>
-					</span>
-					<span class=" me-1">All rights reserved.</span>
-				</div>
+					<ul class="nav col-md-4 justify-content-end list-unstyled d-flex white">
+						<li class="ms-3">
+							<a target="_blank" href="https://github.com/salmabenhadjali">
+								By Salma BHA
+								<i class="fa-brands fa-github" style="color: #ffffff;"></i>
+							</a>
+						</li>
+					</ul>
+				</footer>
+			</div>
+			<!-- End Footer -->
 
-				<ul class="nav col-md-4 justify-content-end list-unstyled d-flex white">
-					<li class="ms-3">
-						<a target="_blank" href="https://github.com/salmabenhadjali">
-							By Salma BHA
-							<i class="fa-brands fa-github" style="color: #ffffff;"></i>
-						</a>
-					</li>
-				</ul>
-			</footer>
-		</div>
-		<!-- End Footer -->
-
-	</body>
-</html>
+		</body>
+	</html>

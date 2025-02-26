@@ -57,3 +57,10 @@ footer a {
 #detail-content .list i {
   cursor: pointer;
 }
+
+.checkbox-inline {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse; /* Inverse l'ordre du label et de la checkbox */
+  gap: 8px; /* Espace entre la checkbox et le label */
+}

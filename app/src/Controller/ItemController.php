@@ -30,9 +30,6 @@ class ItemController extends AbstractController
         }
 
         $item = $this->apiService->post('api_items_create', ['idList' => $idList], [
-            'headers' => [
-                'Content-Type' => 'application/json'
-            ],
             'json' => ['title' => $title]
         ]);
 
@@ -51,14 +48,11 @@ class ItemController extends AbstractController
             return new JsonResponse(['error' => 'Missing title'], Response::HTTP_BAD_REQUEST);
         }
 
-        $item = $this->apiService->post('api_subitems_create', ['id' => $id], [
-            'headers' => [
-                'Content-Type' => 'application/json'
-            ],
+        $data = $this->apiService->post('api_subitems_create', ['id' => $id], [
             'json' => ['title' => $title]
         ]);
 
-        $todolist = $this->apiService->get('api_todolists_get', ['id' => $item['todoList']['id']]);
+        $todolist = $this->apiService->get('api_todolists_get', ['id' => $data['item']['todoList']['id']]);
 
         return $this->render('list/_detail_stream.html.twig', [
             'todolist' => $todolist
@@ -74,9 +68,6 @@ class ItemController extends AbstractController
         }
 
         $item = $this->apiService->put('api_items_update', ['id' => $id], [
-            'headers' => [
-                'Content-Type' => 'application/json'
-            ],
             'json' => ['title' => $title]
         ]);
 

@@ -37,6 +37,9 @@ class TodoList
     private Collection $items;
 
     #[ORM\ManyToOne(inversedBy: 'todoLists')]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'todoLists')]
     #[ORM\JoinColumn(nullable: false)]
 
     public function __construct()
@@ -118,6 +121,18 @@ class TodoList
                 $item->setTodoList(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

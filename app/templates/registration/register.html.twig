@@ -18,7 +18,10 @@
 	{{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
-	{{ form_row(registrationForm.agreeTerms) }}
+	<div class="checkbox-inline">
+		{{ form_widget(registrationForm.agreeTerms) }}
+		{{ form_label(registrationForm.agreeTerms) }}
+	</div>
 
 	<button type="submit" class="btn btn-primary">Register</button>
 	{{ form_end(registrationForm) }}

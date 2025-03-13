@@ -25,6 +25,29 @@
 						<i class="fas fa-times text-danger" data-bs-toggle="modal" data-bs-target="#deleteItemModal{{subItem.id}}"></i>
 					</div>
 				</div>
+				<!-- Bootstrap Modal for Editing an Item -->
+				{{ modalItem.render(
+					"editItemModal" ~ subItem.id,
+					"Edit the Item",
+					path('app_items_update', {'id': subItem.id}),
+					"put",
+					"Item title",
+					"Save",
+					"btn-primary",
+					"edit_item_form_" ~ subItem.id,
+					subItem.title
+				) }}
+				<!-- Bootstrap Modal for Deleting a SubItem -->
+				{{ modalItem.render(
+					"deleteItemModal" ~ subItem.id,
+					"Delete the Item",
+					path('app_items_delete', {'id': subItem.id}),
+					"delete",
+					"Are you sure you want to delete this Item ?",
+					"Yes, Delete",
+					"btn-danger",
+					"delete_item_form_" ~ subItem.id
+				) }}
 			{% endfor %}
 			<!-- Bootstrap Modal for Deleting an Item -->
 			{{ modalItem.render(

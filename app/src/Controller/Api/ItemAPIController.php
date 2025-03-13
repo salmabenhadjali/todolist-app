@@ -56,7 +56,7 @@ class ItemAPIController extends AbstractController
         $data = $this->itemService->createSubItem($id, $title);
 
         $this->logger->info('Item cretaed with ID {id}', [
-            'id' => $data['subItem']['id'],
+            'id' => $data['item']['id'],
         ]);
 
         return $this->json($data, Response::HTTP_CREATED);
@@ -81,22 +81,22 @@ class ItemAPIController extends AbstractController
             return $this->json(['message' => 'Invalid data'], Response::HTTP_BAD_REQUEST);
         };
 
-        $item = $this->itemService->update($id, $title);
+        $data = $this->itemService->update($id, $title);
 
         $this->logger->info("Item updated with ID {id}", [
-            'data' => $item,
+            'data' => $data['item'],
         ]);
 
-        return $this->json($item, Response::HTTP_OK);
+        return $this->json($data, Response::HTTP_OK);
     }
 
     #[Route('/api/items/{id<\d+>}', methods: ['DELETE'], name: 'api_items_delete')]
     public function delete(string $id): Response
     {
-        $item = $this->itemService->delete($id);
+        $data = $this->itemService->delete($id);
 
         $this->logger->info("Item deleted with ID {id}");
 
-        return $this->json($item, Response::HTTP_OK);
+        return $this->json($data, Response::HTTP_OK);
     }
 }

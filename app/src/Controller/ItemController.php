@@ -52,7 +52,9 @@ class ItemController extends AbstractController
             'json' => ['title' => $title]
         ]);
 
-        $todolist = $this->apiService->get('api_todolists_get', ['id' => $data['item']['todoList']['id']]);
+        $idTodolist = $data['parent'] ? $data['parent']['todoList']['id'] : $data['item']['todoList']['id'];
+
+        $todolist = $this->apiService->get('api_todolists_get', ['id' => $idTodolist]);
 
         return $this->render('list/_detail_stream.html.twig', [
             'todolist' => $todolist
@@ -67,11 +69,13 @@ class ItemController extends AbstractController
             return new JsonResponse(['error' => 'Missing title'], Response::HTTP_BAD_REQUEST);
         }
 
-        $item = $this->apiService->put('api_items_update', ['id' => $id], [
+        $data = $this->apiService->put('api_items_update', ['id' => $id], [
             'json' => ['title' => $title]
         ]);
 
-        $todolist = $this->apiService->get('api_todolists_get', ['id' => $item['todoList']['id']]);
+        $idTodolist = $data['parent'] ? $data['parent']['todoList']['id'] : $data['item']['todoList']['id'];
+
+        $todolist = $this->apiService->get('api_todolists_get', ['id' => $idTodolist]);
 
         return $this->render('list/_detail_stream.html.twig', [
             'todolist' => $todolist
@@ -81,9 +85,11 @@ class ItemController extends AbstractController
     #[Route('/items/{id<\d+>}', name: 'app_items_delete', methods: ['DELETE'])]
     function delete(string $id): Response
     {
-        $item = $this->apiService->delete('api_items_delete', ['id' => $id]);
+        $data = $this->apiService->delete('api_items_delete', ['id' => $id]);
 
-        $todolist = $this->apiService->get('api_todolists_get', ['id' => $item['todoList']['id']]);
+        $idTodolist = $data['parent'] ? $data['parent']['todoList']['id'] : $data['item']['todoList']['id'];
+
+        $todolist = $this->apiService->get('api_todolists_get', ['id' => $idTodolist]);
 
         return $this->render('list/_detail_stream.html.twig', [
             'todolist' => $todolist

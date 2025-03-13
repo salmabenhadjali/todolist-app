@@ -62,8 +62,8 @@ class ItemService
         $this->entityManager->flush();
 
         return [
-            'item' => $this->normalizer->normalize($parentItem, null, ['groups' => 'item_list']),
-            'subItem' => $this->normalizer->normalize($item, null, ['groups' => 'item_list'])
+            'parent' => $this->normalizer->normalize($parentItem, null, ['groups' => 'item_list']),
+            'item' => $this->normalizer->normalize($item, null, ['groups' => 'item_list'])
         ];
     }
 
@@ -78,7 +78,10 @@ class ItemService
         $this->entityManager->persist($item);
         $this->entityManager->flush();
 
-        return $this->normalizer->normalize($item, null, ['groups' => 'item_list']);
+        return [
+            'parent' => $this->normalizer->normalize($item->getParentItem(), null, ['groups' => 'item_list']),
+            'item' => $this->normalizer->normalize($item, null, ['groups' => 'item_list'])
+        ];
     }
 
     public function delete(string $id): array
@@ -88,6 +91,9 @@ class ItemService
         $this->entityManager->remove($item);
         $this->entityManager->flush();
 
-        return $this->normalizer->normalize($item, null, ['groups' => 'item_list']);
+        return [
+            'parent' => $this->normalizer->normalize($item->getParentItem(), null, ['groups' => 'item_list']),
+            'item' => $this->normalizer->normalize($item, null, ['groups' => 'item_list'])
+        ];
     }
 }

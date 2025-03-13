@@ -4,25 +4,33 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\User;
 use DateTimeImmutable;
 use App\Entity\TodoList;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class TodoListService
 {
     private EntityManagerInterface $entityManager;
     private NormalizerInterface $normalizer;
+    private Security $security;
 
-    public function __construct(EntityManagerInterface $entityManager, NormalizerInterface $normalizer)
+    public function __construct(EntityManagerInterface $entityManager, NormalizerInterface $normalizer, Security $security)
     {
         $this->entityManager = $entityManager;
         $this->normalizer = $normalizer;
+        $this->security = $security;
     }
 
     public function list(): array
     {
+        /** @var User */
+        $user = $this->security?->getUser();
+
         $todolists = $this->entityManager->getRepository(TodoList::class)->findAll();
+        $todolists = $user->getTodoLists()->toArray();
 
         // Normalize each object in the array
         return array_map(
@@ -39,13 +47,16 @@ class TodoListService
         return $this->normalizer->normalize($todolist, null, ['groups' => 'todo_list']);
     }
 
-    public function create(string $name): array
+    public function create(string $name): ?array
     {
+        $user = $this->security?->getUser();
+
         $todolist = new TodoList();
         $todolist->setName($name);
         $now = new DateTimeImmutable();
         $todolist->setCreatedAt($now)
-            ->setUpdatedAt($now);
+            ->setUpdatedAt($now)
+            ->setUser($user);
 
         $this->entityManager->persist($todolist);
         $this->entityManager->flush();
